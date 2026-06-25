@@ -1,14 +1,23 @@
 "use client"
 import { useState } from "react";
 
-export default function Editor() {
-    const [text,setText] = useState('')
+interface EditorProps {
+    documentId: string;
+    text: string
+    onChange: (value: string) => void
+}
+
+export default function Editor(
+    { documentId,text,onChange }: EditorProps
+) {
 
     return (
         <div>
             <textarea
             value = {text}
-            onChange={(e) => setText(e.target.value)}
+            onChange = {(e) => 
+                onChange(e.target.value)
+            }
             placeholder="Start Collabrating"
             className="
                 w-[1200px]
