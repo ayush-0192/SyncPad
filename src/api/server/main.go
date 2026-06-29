@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/joho/godotenv"
 	"github.com/ayush-0192/SyncPad/src/api/router"
+	"github.com/ayush-0192/SyncPad/src/api/document"
 )
 
 func main() {
@@ -26,13 +27,18 @@ func main() {
 		log.Fatal("Error in connecting to database",err)
 	}
 
+	err = db.AutoMigrate(&document.Document{})	
+
 	fmt.Printf("database connected successfully\n")
 
 	
 	_ = db
     
+	docRepo := document.NewRepo(db)
+	docService := document.NewService(docRepo)
+	docHandler := document.NewHandler(docService)
 	
-	router := router.Setup()
+	router := router.Setup(docHandler)
 	router.Run(":" + cfg.PORT)
 	
 }
