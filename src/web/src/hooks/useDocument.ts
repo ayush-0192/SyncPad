@@ -32,6 +32,40 @@ export function useDocument() {
         
     };
 
+    // create the document with untitled and document with empty content and shown in ui
+    const createDocument = async() => {
+        try {
+            const response = await fetch(
+                "http://localhost:8080/create-document",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        title: "Untitled",
+                        content: ""
+                    }),
+                }
+                
+
+            );
+
+            const newDocument : Document = await response.json();
+            setDocumentSummary((prev) => [
+                {
+                    id: newDocument.id,
+                    title: newDocument.title,
+                },
+                ...prev
+            ]);
+            router.push(`/doc/${newDocument.id}`)
+        }catch(error) {
+            console.log(error)
+        }
+        
+    }
+
     return {
         documents,
         createDocument,
