@@ -1,27 +1,40 @@
 import { useRouter } from "next/navigation"
-import { useState } from "react"
-import { Document } from "@/types/document"
+import { useEffect, useState } from "react"
+import { Document, DocumentSummary } from "@/types/document"
+
+
 export function useDocument() {
     const router = useRouter()
 
     const [documents,setDocument] = useState<Document[]>([])
+    const [documentSummary,setDocumentSummary] = useState<DocumentSummary[]>([])
 
-    const createDocument = () => {
-        const newDocument = {
-            id: crypto.randomUUID(),
-            title: "untitled",
-            updatedAt: new Date().toISOString()
+    useEffect(() => {
+        fetchDocumentsTitleList()
+    }, [])
+
+    // fetch the list of title of the document to show in the sidebar
+    const fetchDocumentsTitleList = async() => {
+        try {
+            const response = await fetch(
+                "http://localhost:8080/get-document-title-list"
+            );
+
+            if(!response.ok) {
+                throw new Error("Failed to fetch the response")
+            }
+
+            const data: DocumentSummary[] = await response.json();
+            setDocumentSummary(data)
+        }catch(error) {
+            console.log(error)
         };
-        setDocument((prev) => [
-            newDocument,
-            ...prev,
-        ]);
-
-        router.push(`/doc/${newDocument.id}`);
+        
     };
 
     return {
         documents,
-        createDocument
+        createDocument,
+        documentSummary
     }
 }

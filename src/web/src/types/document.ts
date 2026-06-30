@@ -8,3 +8,8 @@ export interface FullDocument extends Document {
     content:string;
     version:number;
 }
+
+export interface DocumentSummary {
+    id: string
+    title: string
+}
