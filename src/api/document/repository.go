@@ -27,9 +27,9 @@ func (r *Repository) GetById(id string) (*Document, error) {
 	return &doc, nil
 }
 
-func (r *Repository) GetDocumentTitleList() ([] string, error) {
+func (r *Repository) GetDocumentTitleList() (*[]DocumentTitleList , error) {
 	var documentTitleList []DocumentTitleList
-	result := r.db.select("id, title").Find(&documents).Error
+	result := r.db.Model(&Document{}).Select("id, title").Find(&documentTitleList)
 
 	if result.Error != nil {
 		return nil, result.Error
@@ -38,8 +38,8 @@ func (r *Repository) GetDocumentTitleList() ([] string, error) {
 	return &documentTitleList, nil
 }
 
-func (r *Repository) UpdateDoc(id string, updatedDoc map[string]any,) error {
-	return r.db.Model(&Document{}).where("id = ?", id).Updates(updatedDoc).Error
+func (r *Repository) UpdateDoc(id string, updatedDoc *map[string]any,) error {
+	return r.db.Model(&Document{}).Where("id = ?", id).Updates(updatedDoc).Error
 }
 
 

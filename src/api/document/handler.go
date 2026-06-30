@@ -78,17 +78,17 @@ func (h *Handler) UpdateDoc(c *gin.Context) {
 
 	 if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(400,gin.H {
-			"error" : err.Error()
+			"error": err.Error(),
 		})
 
 		return
 	 }
 
-	 err := h.service.updateDocContentAndTitle(id,req)
+	 err := h.service.updateDocumentContentAndTitle(id,&req)
 
 	 if err != nil {
 		c.JSON(500,gin.H {
-			"error" : err.Error()
+			"error" : err.Error(),
 		})
 	 }
 

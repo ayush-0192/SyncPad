@@ -1,9 +1,15 @@
+package document
+
+import (
+	
+	"github.com/google/uuid"
+)
 type DocumentTitleList struct {
-	Id : uuid.UUID `json:"id"`
-	title: string  `json: "title"`
+	Id  uuid.UUID `json:"id"`
+	Title string  `json:"title"`
 }
 
 type UserDocumentUpdateRequest struct {
-	title *string `json:"title"`
-	content *string `json:"content"`
+	Title *string `json:"title"`
+	Content *string `json:"content"`
 }

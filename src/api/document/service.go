@@ -1,10 +1,9 @@
 package document
 
-/*
 import (
-	
+	"errors"
+	"fmt"
 )
-*/
 
 type Service struct {
 	repo *Repository
@@ -24,18 +23,18 @@ func (s *Service) getDocumentById(id string) (*Document, error) {
 	return s.repo.GetById(id)
 }
 
-func (s *Service) getDocumentTitleList() (*Document, error) {
-	s.repo.GetDocumentTitleList()
+func (s *Service) getDocumentTitleList()  (*[] DocumentTitleList,error) {
+	return s.repo.GetDocumentTitleList()
 }
 
-func (s *Service) updateDocumentContentAndTitle(id uuid.UUID, req UserDocumentUpdateRequest) error {
+func (s *Service) updateDocumentContentAndTitle(id string, req *UserDocumentUpdateRequest) error {
 	updatedDoc := map[string]any{}
 
-	if req.content != nil {
+	if req.Content != nil {
 		updatedDoc["content"] = *req.Content
 	}
 
-	if req.title != nil {
+	if req.Title != nil {
 		updatedDoc["title"] = *req.Title
 	}
 
@@ -43,5 +42,5 @@ func (s *Service) updateDocumentContentAndTitle(id uuid.UUID, req UserDocumentUp
 		return errors.New("No field to update")
 	}
 	
-	return s.repo.UpdatedDoc(id,updatedDoc)
+	 return s.repo.UpdateDoc(id,&updatedDoc)
 }

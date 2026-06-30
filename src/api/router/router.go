@@ -27,6 +27,6 @@ func Setup(docHandler *document.Handler) *gin.Engine {
 	r.POST("/create-document", docHandler.CreateDoc)
 	r.GET("/get-document/:id", docHandler.GetDocByid)
 	r.GET("/get-document-title-list", docHandler.GetAllDocTitleList)
-	r.PATCH("/update-doc",docHandler.GetAllDocTitleList)
+	r.PATCH("/update-doc/:id",docHandler.UpdateDoc)
 	return r
 }
