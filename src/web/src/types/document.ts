@@ -13,3 +13,18 @@ export interface DocumentSummary {
     id: string
     title: string
 }
+
+
+export type Operation =
+  | {
+      type: "insert";
+      position: number;
+      text: string;
+      version: number;
+    }
+  | {
+      type: "delete";
+      position: number;
+      length: number;
+      version: number;
+    };
